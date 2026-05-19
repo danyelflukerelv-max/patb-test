@@ -12,7 +12,6 @@
         --muted: #6b7280;
         --primary: #0f766e;
         --primary-dark: #0b5f59;
-        --primary-soft: #d1fae5;
         --accent: #f59e0b;
         --danger: #b91c1c;
         --border: #e5e7eb;
@@ -20,414 +19,222 @@
         --shadow-hover: 0 20px 34px rgba(15, 23, 42, 0.12);
         --radius: 16px;
       }
-
       * { box-sizing: border-box; }
-
       body {
         margin: 0;
         font-family: "Inter", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        line-height: 1.45;
-        letter-spacing: -0.01em;
+        line-height: 1.52;
         background: radial-gradient(circle at top right, #f0fdfa 0%, transparent 42%), linear-gradient(180deg, #fef3e8 0%, var(--bg) 38%);
         color: var(--text);
       }
-
-      .app {
-        max-width: 1120px;
-        margin: 1.5rem auto 2.5rem;
-        padding: 0 1rem;
-      }
-
-      .hero {
-        position: relative;
-        overflow: hidden;
-        background: linear-gradient(120deg, #ffffff 0%, #fffbeb 50%, #f0fdfa 100%);
-        border-radius: 24px;
-        padding: 2rem;
-        box-shadow: var(--shadow);
-        border: 1px solid rgba(255, 255, 255, 0.7);
+      .app { max-width: 1140px; margin: 1.2rem auto 3rem; padding: 0 1rem; }
+      .nav {
+        position: sticky; top: 0; z-index: 5;
+        display: flex; justify-content: space-between; align-items: center;
+        background: rgba(255,255,255,0.92); backdrop-filter: blur(6px);
+        border: 1px solid var(--border); border-radius: 14px; padding: 0.6rem 0.8rem; box-shadow: var(--shadow);
         margin-bottom: 1rem;
       }
+      .brandline { display:flex; gap:.55rem; align-items:center; font-weight:700; color:var(--primary); }
+      .logo { width:28px;height:28px;border-radius:9px;position:relative;background:linear-gradient(145deg,#14b8a6,#0f766e); }
+      .logo::before,.logo::after { content:""; position:absolute; border:2px solid #fff; border-radius:999px; width:10px;height:6px; top:10px; }
+      .logo::before { left:4px; } .logo::after { right:4px; }
+      .logo span { position:absolute; left:11px; top:12px; width:6px; height:2px; background:#fff; }
+      .nav-links { display:flex; gap:.45rem; flex-wrap:wrap; }
+      .nav-links button { border:0;background:transparent;padding:.45rem .7rem;border-radius:999px;cursor:pointer;color:var(--muted);font-weight:600; }
+      .nav-links button.active, .nav-links button:hover { background:#ecfdf5; color:var(--primary); }
+      .screen { display:none; }
+      .screen.active { display:block; }
+      .hero { background: linear-gradient(120deg,#fff,#fffbeb 50%,#f0fdfa); border-radius:24px;padding:2rem;box-shadow:0 20px 40px rgba(15,23,42,.11); margin-bottom:1rem; }
+      .hero h1{margin:0;font-size:clamp(1.8rem,3.2vw,2.4rem);color:var(--primary)}
+      .hero .tagline{font-size:1.12rem;font-weight:600;margin:.5rem 0 0}
+      .hero .description{margin:.7rem 0 0;color:var(--muted)}
+      .auth-wrap { max-width: 560px; margin: 2rem auto; }
+      .card { background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:1rem; box-shadow:var(--shadow); transition:.22s ease; }
+      .card:hover { transform:translateY(-2px); box-shadow:var(--shadow-hover); }
+      .field { margin:.7rem 0; }
+      .field label { display:block; font-size:.9rem; color:#374151; margin-bottom:.28rem; }
+      input, select { width:100%; padding:.68rem .75rem; border:1px solid #d1d5db; border-radius:10px; font:inherit; }
+      .btn { border:0; border-radius:10px; padding:.75rem .95rem; font-weight:700; cursor:pointer; }
+      .btn-primary { background:linear-gradient(90deg,var(--primary),var(--primary-dark)); color:#fff; box-shadow:0 10px 20px rgba(15,118,110,.25); }
+      .btn-soft { background:#ecfdf5; color:var(--primary); }
+      .actions { display:flex; gap:.6rem; flex-wrap:wrap; margin-top:.8rem; }
+      .muted { color:var(--muted); margin:0; }
+      .small { font-size:.9rem; }
+      .hidden { display:none; }
 
-      .hero::after {
-        content: "";
-        position: absolute;
-        width: 240px;
-        height: 240px;
-        border-radius: 50%;
-        background: radial-gradient(circle, rgba(15, 118, 110, 0.12) 0%, rgba(15, 118, 110, 0) 70%);
-        right: -70px;
-        top: -80px;
-        pointer-events: none;
-      }
-
-      .brand {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.7rem;
-        margin-bottom: 0.8rem;
-      }
-
-      .logo {
-        width: 38px;
-        height: 38px;
-        border-radius: 11px;
-        position: relative;
-        background: linear-gradient(145deg, #14b8a6, #0f766e);
-        box-shadow: inset 0 0 0 1px rgba(255,255,255,0.3);
-      }
-
-      .logo::before,
-      .logo::after {
-        content: "";
-        position: absolute;
-        border: 2px solid rgba(255, 255, 255, 0.95);
-        border-radius: 999px;
-        width: 14px;
-        height: 9px;
-        top: 13px;
-      }
-
-      .logo::before { left: 6px; }
-      .logo::after { right: 6px; }
-
-      .logo span {
-        position: absolute;
-        left: 15px;
-        top: 16px;
-        width: 8px;
-        height: 2px;
-        background: rgba(255,255,255,0.95);
-      }
-
-      .hero h1 {
-        margin: 0;
-        font-size: clamp(1.75rem, 3.2vw, 2.2rem);
-        color: var(--primary);
-      }
-
-      .hero .tagline {
-        margin: 0.45rem 0 0;
-        font-size: 1.15rem;
-        font-weight: 600;
-      }
-
-      .hero .description {
-        margin: 0.7rem 0 0;
-        color: var(--muted);
-        max-width: 700px;
-      }
-
-      .header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
-        gap: 1rem;
-      }
-
-      .title h2 {
-        margin: 0;
-        font-size: 1.25rem;
-      }
-
-      .title p {
-        margin: 0.2rem 0 0;
-        color: var(--muted);
-      }
-
-      .switcher {
-        display: inline-flex;
-        background: #ffffff;
-        border-radius: 999px;
-        padding: 0.25rem;
-        box-shadow: var(--shadow);
-        border: 1px solid #eef2f7;
-      }
-
-      .switcher button {
-        border: 0;
-        background: transparent;
-        padding: 0.62rem 1rem;
-        border-radius: 999px;
-        cursor: pointer;
-        color: var(--muted);
-        font-weight: 600;
-        transition: all 0.2s ease;
-      }
-
-      .switcher button:hover { color: var(--text); }
-      .switcher button.active {
-        background: var(--primary);
-        color: #fff;
-      }
-
-      .view { display: none; gap: 1rem; }
-      .view.active { display: grid; }
-      .dashboard-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-
-      .card {
-        background: var(--panel);
-        border-radius: var(--radius);
-        padding: 1rem;
-        box-shadow: var(--shadow);
-        border: 1px solid var(--border);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-      }
-
-      .card:hover {
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-hover);
-      }
-
-      .metric { font-size: 1.65rem; margin: 0.25rem 0 0; font-weight: 700; }
-      .muted { color: var(--muted); margin: 0; }
-
-      .label {
-        font-size: 0.77rem;
-        color: var(--muted);
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        font-weight: 600;
-      }
-
-      .family-list { margin-top: 0.35rem; display: grid; gap: 0.75rem; }
-
-      .family {
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 0.9rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: #fff;
-      }
-
-      .tag {
-        font-size: 0.74rem;
-        font-weight: 700;
-        border-radius: 999px;
-        padding: 0.28rem 0.56rem;
-      }
-
-      .ok { background: #dcfce7; color: #166534; }
-      .warn { background: #fef3c7; color: #b45309; }
-      .late { background: #fee2e2; color: var(--danger); }
-      .plan { background: #dbeafe; color: #1d4ed8; }
-
-      .parent-layout { grid-template-columns: 1.15fr 0.85fr; }
-
-      .checkout-card {
-        padding: 1.2rem;
-      }
-
-      .option {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border: 1px solid #d1d5db;
-        border-radius: 12px;
-        padding: 0.85rem;
-        cursor: pointer;
-        margin-top: 0.65rem;
-        background: #fff;
-        transition: border-color 0.2s ease, background 0.2s ease;
-      }
-
-      .option input { margin-right: 0.65rem; accent-color: var(--primary); }
-      .option:hover { border-color: #9ca3af; }
-      .option.active { border-color: var(--primary); background: #ecfdf5; }
-      .checkout-total { font-size: 2rem; margin: 0.25rem 0; }
-      .dates { margin: 0; padding-left: 1.1rem; color: var(--muted); }
-
-      .receipt {
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 0.9rem;
-        margin-top: 0.9rem;
-        background: #fcfcfd;
-      }
-
-      .receipt-row {
-        display: flex;
-        justify-content: space-between;
-        margin: 0.35rem 0;
-        color: #374151;
-      }
-
-      .btn {
-        margin-top: 1rem;
-        width: 100%;
-        border: 0;
-        border-radius: 10px;
-        padding: 0.9rem;
-        color: white;
-        font-weight: 700;
-        background: linear-gradient(90deg, var(--primary), var(--primary-dark));
-        cursor: pointer;
-        transition: transform 0.2s ease, filter 0.2s ease;
-      }
-
-      .btn:hover {
-        transform: translateY(-1px);
-        filter: brightness(1.04);
-      }
-
-      .sections {
-        display: grid;
-        gap: 1rem;
-        margin-top: 1rem;
-      }
-
-      .flow {
-        margin: 0;
-        padding-left: 1.1rem;
-        display: grid;
-        gap: 0.5rem;
-      }
-
-      .flow li::marker { color: var(--accent); font-weight: 700; }
-
-      @media (max-width: 1020px) {
-        .dashboard-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-      }
-
-      @media (max-width: 900px) {
-        .header { flex-direction: column; align-items: stretch; }
-        .switcher { width: 100%; }
-        .switcher button { flex: 1; }
-        .parent-layout { grid-template-columns: 1fr; }
-      }
-
-      @media (max-width: 660px) {
-        .hero { padding: 1.4rem; }
-        .dashboard-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      }
-
-      @media (max-width: 520px) {
-        .dashboard-grid { grid-template-columns: 1fr; }
-        .family { flex-direction: column; align-items: flex-start; gap: 0.45rem; }
-      }
+      .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; gap:1rem; }
+      .title h2 { margin:0; }
+      .switcher { display:inline-flex; background:#fff; border-radius:999px; padding:.25rem; border:1px solid #eef2f7; box-shadow:var(--shadow); }
+      .switcher button { border:0;background:transparent;padding:.62rem 1rem;border-radius:999px;cursor:pointer;color:var(--muted);font-weight:600; }
+      .switcher .active { background:var(--primary); color:#fff; }
+      .view{display:none;gap:1rem}.view.active{display:grid}
+      .dashboard-grid{grid-template-columns:repeat(5,minmax(0,1fr))}
+      .metric{font-size:1.65rem;margin:.25rem 0 0;font-weight:700}
+      .label{font-size:.77rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+      .family-list{display:grid;gap:.75rem}.family{border:1px solid var(--border);border-radius:12px;padding:.9rem;display:flex;justify-content:space-between;align-items:center}
+      .tag{font-size:.74rem;font-weight:700;border-radius:999px;padding:.28rem .56rem}.ok{background:#dcfce7;color:#166534}.warn{background:#fef3c7;color:#b45309}.late{background:#fee2e2;color:var(--danger)}.plan{background:#dbeafe;color:#1d4ed8}
+      .parent-layout{grid-template-columns:1.15fr .85fr}.option{display:flex;justify-content:space-between;align-items:center;border:1px solid #d1d5db;border-radius:12px;padding:.85rem;cursor:pointer;margin-top:.65rem;background:#fff}
+      .option.active{border-color:var(--primary);background:#ecfdf5}.checkout-total{font-size:2rem;margin:.25rem 0}.dates{margin:0;padding-left:1.1rem;color:var(--muted)}
+      .receipt{border:1px solid var(--border);border-radius:12px;padding:.9rem;margin-top:.9rem;background:#fcfcfd}.receipt-row{display:flex;justify-content:space-between;margin:.35rem 0}
+      .sections{display:grid;gap:1rem;margin-top:1.15rem}.flow{margin:0;padding-left:1.1rem;display:grid;gap:.5rem}
+      @media (max-width:1020px){.dashboard-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+      @media (max-width:900px){.header{flex-direction:column;align-items:stretch}.switcher{width:100%}.switcher button{flex:1}.parent-layout{grid-template-columns:1fr}}
+      @media (max-width:660px){.hero{padding:1.35rem;border-radius:18px}.dashboard-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+      @media (max-width:520px){.dashboard-grid{grid-template-columns:1fr}.family{flex-direction:column;align-items:flex-start;gap:.45rem}}
     </style>
   </head>
   <body>
     <div class="app">
-      <section class="hero">
-        <div class="brand">
-          <div class="logo" aria-hidden="true"><span></span></div>
-          <h1>Vilinq</h1>
+      <nav class="nav">
+        <div class="brandline"><div class="logo" aria-hidden="true"><span></span></div>Vilinq</div>
+        <div class="nav-links">
+          <button class="nav-btn active" data-screen="welcome">Welcome</button>
+          <button class="nav-btn" data-screen="dashboard">Provider Dashboard</button>
+          <button class="nav-btn" data-screen="parentonly">Parent Payment View</button>
         </div>
-        <p class="tagline">Keeping families connected to care.</p>
-        <p class="description">Flexible childcare payment support for families and providers.</p>
+      </nav>
+
+      <section id="welcome" class="screen active">
+        <section class="hero">
+          <h1>Welcome to Vilinq</h1>
+          <p class="tagline">Keeping families connected to care.</p>
+          <p class="description">Flexible childcare payment support for families and providers.</p>
+          <div class="actions">
+            <button class="btn btn-primary" id="providerLoginBtn">Provider Login</button>
+            <button class="btn btn-soft" id="createAccountBtn">Create Provider Account</button>
+          </div>
+        </section>
       </section>
 
-      <div class="header">
-        <div class="title">
-          <h2>Product Prototype</h2>
-          <p>Clickable preview with sample data (no live payments).</p>
-        </div>
-        <div class="switcher">
-          <button class="tab active" data-view="provider">Provider Dashboard</button>
-          <button class="tab" data-view="parent">Parent Payment View</button>
-        </div>
-      </div>
-
-      <section id="provider" class="view dashboard-grid active">
-        <article class="card"><p class="label">Total Tuition Due</p><p class="metric">$42,680</p><p class="muted">Across 63 active families this month</p></article>
-        <article class="card"><p class="label">Families on Payment Plans</p><p class="metric">18</p><p class="muted">+4 since last month</p></article>
-        <article class="card"><p class="label">Late Payments</p><p class="metric">7</p><p class="muted">Needs follow-up this week</p></article>
-        <article class="card"><p class="label">Subsidy Gap Cases</p><p class="metric">5</p><p class="muted">Average gap: $290</p></article>
-        <article class="card"><p class="label">Enrollment Risk Alerts</p><p class="metric">3</p><p class="muted">Enrollment risk elevated for 3 families this month</p></article>
-
-        <article class="card" style="grid-column: 1 / -1">
-          <p class="label">Provider Alerts</p>
-          <div class="family-list">
-            <div class="family"><div><strong>Sunrise Room</strong><p class="muted">Subsidy expires in 12 days • Parent requested payment flexibility</p></div><span class="tag warn">Action Needed</span></div>
-            <div class="family"><div><strong>Toddlers Group</strong><p class="muted">Payment due Friday • Split payment active</p></div><span class="tag plan">In Progress</span></div>
-            <div class="family"><div><strong>Pre-K Cohort</strong><p class="muted">Weekly payment plan enabled • Autopay scheduled</p></div><span class="tag ok">On Track</span></div>
-          </div>
-        </article>
-
-        <article class="card" style="grid-column: 1 / -1">
-          <p class="label">Sample Families</p>
-          <div class="family-list">
-            <div class="family"><div><strong>Nguyen Family</strong><p class="muted">Split payment active • Payment due Friday</p></div><span class="tag plan">Split Plan</span></div>
-            <div class="family"><div><strong>Harris Family</strong><p class="muted">Family balance overdue by 7 days • Enrollment risk elevated</p></div><span class="tag late">Late</span></div>
-            <div class="family"><div><strong>Diaz Family</strong><p class="muted">Subsidy expires in 12 days • Parent requested payment flexibility</p></div><span class="tag warn">Subsidy Gap</span></div>
-            <div class="family"><div><strong>Parker Family</strong><p class="muted">Weekly payment plan enabled • Autopay scheduled</p></div><span class="tag ok">On Track</span></div>
-          </div>
-        </article>
-      </section>
-
-      <section id="parent" class="view parent-layout">
-        <article class="card checkout-card">
-          <p class="label">Childcare Tuition Balance</p>
-          <p class="checkout-total">$1,240.00</p>
-          <p class="muted">May tuition for Ava + Ethan</p>
-
-          <label class="option active"><div><input type="radio" name="plan" checked /><strong>Pay in Full</strong></div><span>$1,240 today</span></label>
-          <label class="option"><div><input type="radio" name="plan" /><strong>Split into 2 Payments</strong></div><span>$620 + $620</span></label>
-          <label class="option"><div><input type="radio" name="plan" /><strong>Weekly Plan</strong></div><span>4 x $310</span></label>
-          <label class="option"><div><input type="radio" name="plan" /><strong>Subsidy Gap Bridge</strong></div><span>Bridge $280 gap</span></label>
-        </article>
-
-        <article class="card checkout-card">
-          <p class="label">Upcoming Payment Dates</p>
-          <ul class="dates">
-            <li>May 20, 2026 — $620 (1st installment)</li>
-            <li>June 3, 2026 — $620 (2nd installment)</li>
-            <li>Auto-reminders sent 48 hours before due date • Payment due Friday</li>
-          </ul>
-          <div class="receipt">
-            <div class="receipt-row"><span>Tuition subtotal</span><strong>$1,240.00</strong></div>
-            <div class="receipt-row"><span>Flex support fee</span><strong>$0.00</strong></div>
-            <div class="receipt-row"><span>Due now</span><strong>$620.00</strong></div>
-          </div>
-          <button class="btn">Continue to Checkout</button>
-          <p class="muted" style="margin-top: 0.7rem; font-size: 0.9rem;">Prototype mode: payment methods and processing are not connected yet.</p>
-        </article>
-      </section>
-
-      <section class="sections">
+      <section id="login" class="screen auth-wrap">
         <article class="card">
-          <p class="label">Why Now?</p>
-          <p class="muted">Providers are seeing more subsidy gaps, late payments, and enrollment drops as families face growing childcare affordability pressure. Vilinq helps centers proactively support families while protecting tuition continuity and enrollment stability.</p>
+          <p class="label">Provider Login</p>
+          <div class="field"><label>Email</label><input type="email" placeholder="director@sunrisecare.org" /></div>
+          <div class="field"><label>Password</label><input type="password" placeholder="••••••••" /></div>
+          <button class="btn btn-primary" id="signInBtn">Sign In</button>
+          <p class="muted small" style="margin-top:.7rem;">Forgot password?</p>
+          <p class="muted small">Prototype only — no real login required.</p>
         </article>
+      </section>
 
+      <section id="onboarding" class="screen auth-wrap">
         <article class="card">
-          <p class="label">How Vilinq Works</p>
-          <ol class="flow">
-            <li>Provider invites family</li>
-            <li>Family selects payment option</li>
-            <li>Vilinq tracks payment schedule</li>
-            <li>Automated reminders are sent</li>
-            <li>Provider monitors payment and enrollment status</li>
-          </ol>
+          <p class="label">Create Provider Account</p>
+          <h3 id="stepTitle" style="margin:.4rem 0;">1. Center Information</h3>
+
+          <div class="step step-1">
+            <div class="field"><label>Center name</label><input placeholder="Sunrise Learning Center" /></div>
+            <div class="field"><label>Program type</label><input placeholder="Infant, Toddler, Pre-K" /></div>
+            <div class="field"><label>Number of enrolled families</label><input placeholder="63" /></div>
+          </div>
+          <div class="step step-2 hidden">
+            <div class="field"><label>Billing frequency</label><input placeholder="Monthly" /></div>
+            <div class="field"><label>Current payment methods</label><input placeholder="ACH, Card, Check" /></div>
+            <div class="field"><label>Average monthly tuition</label><input placeholder="$1,180" /></div>
+          </div>
+          <div class="step step-3 hidden">
+            <div class="field"><label><input type="checkbox" checked /> Subsidy gap tracking</label></div>
+            <div class="field"><label><input type="checkbox" checked /> Late payment reminders</label></div>
+            <div class="field"><label><input type="checkbox" checked /> Flexible payment plans</label></div>
+            <div class="field"><label><input type="checkbox" checked /> Enrollment risk alerts</label></div>
+          </div>
+          <div class="step step-4 hidden">
+            <div class="field"><label>Add parent email</label><input placeholder="parent@example.com" /></div>
+            <div class="field"><label>Choose payment support option</label><select><option>Split into 2 Payments</option><option>Weekly Plan</option><option>Subsidy Gap Bridge</option></select></div>
+            <button class="btn btn-primary" id="sendInviteBtn">Send invite</button>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-soft" id="prevStep">Back</button>
+            <button class="btn btn-primary" id="nextStep">Next</button>
+          </div>
+          <p class="muted small" style="margin-top:.6rem;">Prototype onboarding flow — no real account is created.</p>
         </article>
+      </section>
+
+      <section id="dashboard" class="screen">
+        <div class="header">
+          <div class="title"><h2>Product Prototype</h2><p class="muted">Clickable preview with sample data (no live payments).</p></div>
+          <div class="switcher">
+            <button class="tab active" data-view="provider">Provider Dashboard</button>
+            <button class="tab" data-view="parent">Parent Payment View</button>
+          </div>
+        </div>
+
+        <section id="provider" class="view dashboard-grid active" style="margin-bottom:0.5rem;">
+          <article class="card"><p class="label">Total Tuition Due</p><p class="metric">$42,680</p><p class="muted">Across 63 active families this month</p></article>
+          <article class="card"><p class="label">Families on Payment Plans</p><p class="metric">18</p><p class="muted">+4 since last month</p></article>
+          <article class="card"><p class="label">Late Payments</p><p class="metric">7</p><p class="muted">Needs follow-up this week</p></article>
+          <article class="card"><p class="label">Subsidy Gap Cases</p><p class="metric">5</p><p class="muted">Average gap: $290</p></article>
+          <article class="card"><p class="label">Enrollment Risk Alerts</p><p class="metric">3</p><p class="muted">Enrollment risk elevated for 3 families this month</p></article>
+          <article class="card" style="grid-column:1 / -1"><p class="label">Provider Alerts</p><div class="family-list"><div class="family"><div><strong>Sunrise Room</strong><p class="muted">Subsidy expires in 12 days • Parent requested payment flexibility</p></div><span class="tag warn">Action Needed</span></div><div class="family"><div><strong>Toddlers Group</strong><p class="muted">Payment due Friday • Split payment active</p></div><span class="tag plan">In Progress</span></div><div class="family"><div><strong>Pre-K Cohort</strong><p class="muted">Weekly payment plan enabled • Autopay scheduled</p></div><span class="tag ok">On Track</span></div></div></article>
+          <article class="card" style="grid-column:1 / -1"><p class="label">Sample Families</p><div class="family-list"><div class="family"><div><strong>Nguyen Family</strong><p class="muted">Split payment active • Payment due Friday</p></div><span class="tag plan">Split Plan</span></div><div class="family"><div><strong>Harris Family</strong><p class="muted">Family balance overdue by 7 days • Enrollment risk elevated</p></div><span class="tag late">Late</span></div><div class="family"><div><strong>Diaz Family</strong><p class="muted">Subsidy expires in 12 days • Parent requested payment flexibility</p></div><span class="tag warn">Subsidy Gap</span></div><div class="family"><div><strong>Parker Family</strong><p class="muted">Weekly payment plan enabled • Autopay scheduled</p></div><span class="tag ok">On Track</span></div></div></article>
+        </section>
+
+        <section id="parent" class="view parent-layout" style="margin-bottom:0.5rem;">
+          <article class="card"><p class="label">Childcare Tuition Balance</p><p class="checkout-total">$1,240.00</p><p class="muted">May tuition for Ava + Ethan</p><label class="option active"><div><input type="radio" name="plan" checked /><strong>Pay in Full</strong></div><span>$1,240 today</span></label><label class="option"><div><input type="radio" name="plan" /><strong>Split into 2 Payments</strong></div><span>$620 + $620</span></label><label class="option"><div><input type="radio" name="plan" /><strong>Weekly Plan</strong></div><span>4 x $310</span></label><label class="option"><div><input type="radio" name="plan" /><strong>Subsidy Gap Bridge</strong></div><span>Bridge $280 gap</span></label></article>
+          <article class="card"><p class="label">Upcoming Payment Dates</p><ul class="dates"><li>May 20, 2026 — $620 (1st installment)</li><li>June 3, 2026 — $620 (2nd installment)</li><li>Auto-reminders sent 48 hours before due date • Payment due Friday</li></ul><div class="receipt"><div class="receipt-row"><span>Tuition subtotal</span><strong>$1,240.00</strong></div><div class="receipt-row"><span>Flex support fee</span><strong>$0.00</strong></div><div class="receipt-row"><span>Due now</span><strong>$620.00</strong></div></div><button class="btn btn-primary">Continue to Checkout</button><p class="muted small" style="margin-top:.7rem;">Prototype mode: payment methods and processing are not connected yet.</p></article>
+        </section>
+
+        <section class="sections"><article class="card"><p class="label">Why Now?</p><p class="muted">Providers are seeing more subsidy gaps, late payments, and enrollment drops as families face growing childcare affordability pressure. Vilinq helps centers proactively support families while protecting tuition continuity and enrollment stability.</p></article><article class="card"><p class="label">How Vilinq Works</p><ol class="flow"><li>Provider invites family</li><li>Family selects payment option</li><li>Vilinq tracks payment schedule</li><li>Automated reminders are sent</li><li>Provider monitors payment and enrollment status</li></ol></article></section>
+      </section>
+
+      <section id="parentonly" class="screen">
+        <div class="header"><div class="title"><h2>Parent Payment View</h2><p class="muted">Standalone view for family-facing payment walkthrough.</p></div></div>
+        <section class="view parent-layout active">
+          <article class="card"><p class="label">Childcare Tuition Balance</p><p class="checkout-total">$1,240.00</p><p class="muted">May tuition for Ava + Ethan</p></article>
+          <article class="card"><p class="label">Upcoming Payment Dates</p><ul class="dates"><li>May 20, 2026 — $620 (1st installment)</li><li>June 3, 2026 — $620 (2nd installment)</li></ul></article>
+        </section>
       </section>
     </div>
 
     <script>
+      const navButtons = document.querySelectorAll('.nav-btn');
+      const screens = document.querySelectorAll('.screen');
+      const showScreen = (id) => {
+        screens.forEach((s) => s.classList.remove('active'));
+        navButtons.forEach((b) => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        document.querySelector(`.nav-btn[data-screen="${id}"]`)?.classList.add('active');
+      };
+
+      document.getElementById('providerLoginBtn').addEventListener('click', () => showScreen('login'));
+      document.getElementById('createAccountBtn').addEventListener('click', () => showScreen('onboarding'));
+      document.getElementById('signInBtn').addEventListener('click', () => showScreen('dashboard'));
+      document.getElementById('sendInviteBtn').addEventListener('click', () => showScreen('dashboard'));
+      navButtons.forEach((b) => b.addEventListener('click', () => showScreen(b.dataset.screen)));
+
+      let step = 1;
+      const stepTitle = document.getElementById('stepTitle');
+      const stepNames = ['1. Center Information','2. Payment Setup','3. Support Needs','4. Invite Families'];
+      const renderStep = () => {
+        document.querySelectorAll('.step').forEach((el, i) => el.classList.toggle('hidden', i !== step - 1));
+        stepTitle.textContent = stepNames[step - 1];
+        document.getElementById('prevStep').style.visibility = step === 1 ? 'hidden' : 'visible';
+        document.getElementById('nextStep').textContent = step === 4 ? 'Finish Setup' : 'Next';
+      };
+      document.getElementById('nextStep').addEventListener('click', () => {
+        if (step < 4) { step += 1; renderStep(); }
+        else { showScreen('dashboard'); }
+      });
+      document.getElementById('prevStep').addEventListener('click', () => { if (step > 1) { step -= 1; renderStep(); } });
+      renderStep();
+
       const tabs = document.querySelectorAll('.tab');
-      const views = document.querySelectorAll('.view');
+      const views = document.querySelectorAll('#dashboard .view');
       const options = document.querySelectorAll('.option');
-
-      tabs.forEach((tab) => {
-        tab.addEventListener('click', () => {
-          tabs.forEach((btn) => btn.classList.remove('active'));
-          views.forEach((v) => v.classList.remove('active'));
-          tab.classList.add('active');
-          document.getElementById(tab.dataset.view).classList.add('active');
-        });
-      });
-
-      options.forEach((option) => {
-        option.addEventListener('click', () => {
-          options.forEach((o) => o.classList.remove('active'));
-          option.classList.add('active');
-          option.querySelector('input').checked = true;
-        });
-      });
+      tabs.forEach((tab) => tab.addEventListener('click', () => {
+        tabs.forEach((btn) => btn.classList.remove('active'));
+        views.forEach((v) => v.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.view).classList.add('active');
+      }));
+      options.forEach((option) => option.addEventListener('click', () => {
+        options.forEach((o) => o.classList.remove('active'));
+        option.classList.add('active');
+        option.querySelector('input').checked = true;
+      }));
     </script>
   </body>
 </html>
