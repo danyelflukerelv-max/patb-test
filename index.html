@@ -1,11 +1,299 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>PATB Test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vilinq | Childcare Payment Flexibility Prototype</title>
+    <style>
+      :root {
+        --bg: #fffaf5;
+        --panel: #ffffff;
+        --text: #1f2937;
+        --muted: #6b7280;
+        --primary: #0f766e;
+        --primary-soft: #d1fae5;
+        --accent: #f59e0b;
+        --danger: #b91c1c;
+        --shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+        --radius: 14px;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+        background: linear-gradient(180deg, #fef3e8 0%, var(--bg) 32%);
+        color: var(--text);
+      }
+
+      .app {
+        max-width: 1100px;
+        margin: 2rem auto;
+        padding: 0 1rem 2rem;
+      }
+
+      .hero {
+        background: linear-gradient(120deg, #ffffff 0%, #fffbeb 55%, #f0fdfa 100%);
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: var(--shadow);
+        margin-bottom: 1rem;
+      }
+
+      .hero h1 {
+        margin: 0;
+        font-size: 2rem;
+        color: var(--primary);
+      }
+
+      .hero .tagline {
+        margin: 0.45rem 0 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+      }
+
+      .hero .description {
+        margin: 0.6rem 0 0;
+        color: var(--muted);
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      .title h2 {
+        margin: 0;
+        font-size: 1.2rem;
+      }
+
+      .title p {
+        margin: 0.25rem 0 0;
+        color: var(--muted);
+      }
+
+      .switcher {
+        display: inline-flex;
+        background: var(--panel);
+        border-radius: 999px;
+        padding: 0.25rem;
+        box-shadow: var(--shadow);
+      }
+
+      .switcher button {
+        border: 0;
+        background: transparent;
+        padding: 0.6rem 1rem;
+        border-radius: 999px;
+        cursor: pointer;
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      .switcher button.active {
+        background: var(--primary);
+        color: #fff;
+      }
+
+      .view { display: none; gap: 1rem; }
+      .view.active { display: grid; }
+      .dashboard-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+
+      .card {
+        background: var(--panel);
+        border-radius: var(--radius);
+        padding: 1rem;
+        box-shadow: var(--shadow);
+      }
+
+      .metric { font-size: 1.7rem; margin: 0.2rem 0 0; font-weight: 700; }
+      .muted { color: var(--muted); margin: 0; }
+
+      .label {
+        font-size: 0.82rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      .family-list { margin-top: 0.25rem; display: grid; gap: 0.75rem; }
+
+      .family {
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 0.85rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .tag {
+        font-size: 0.76rem;
+        font-weight: 700;
+        border-radius: 999px;
+        padding: 0.25rem 0.55rem;
+      }
+
+      .ok { background: #dcfce7; color: #166534; }
+      .warn { background: #fef3c7; color: #b45309; }
+      .late { background: #fee2e2; color: var(--danger); }
+      .plan { background: #dbeafe; color: #1d4ed8; }
+
+      .parent-layout { grid-template-columns: 1.15fr 1fr; }
+
+      .option {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid #d1d5db;
+        border-radius: 12px;
+        padding: 0.8rem;
+        cursor: pointer;
+        margin-top: 0.65rem;
+      }
+
+      .option input { margin-right: 0.65rem; }
+      .option.active { border-color: var(--primary); background: #ecfdf5; }
+      .checkout-total { font-size: 2rem; margin: 0.25rem 0; }
+      .dates { margin: 0; padding-left: 1.1rem; color: var(--muted); }
+
+      .btn {
+        margin-top: 1rem;
+        width: 100%;
+        border: 0;
+        border-radius: 10px;
+        padding: 0.85rem;
+        color: white;
+        font-weight: 700;
+        background: var(--primary);
+        cursor: pointer;
+      }
+
+      .sections {
+        display: grid;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .flow {
+        margin: 0;
+        padding-left: 1.1rem;
+        display: grid;
+        gap: 0.5rem;
+      }
+
+      .flow li::marker { color: var(--accent); font-weight: 700; }
+
+      @media (max-width: 900px) {
+        .header { flex-direction: column; gap: 0.8rem; align-items: flex-start; }
+        .parent-layout { grid-template-columns: 1fr; }
+      }
+    </style>
   </head>
   <body>
-    <h1>PATB Test App</h1>
-    <p>If you can see this page, Clover Site URL works ✅</p>
+    <div class="app">
+      <section class="hero">
+        <h1>Vilinq</h1>
+        <p class="tagline">Keeping families connected to care.</p>
+        <p class="description">Flexible childcare payment support for families and providers.</p>
+      </section>
+
+      <div class="header">
+        <div class="title">
+          <h2>Product Prototype</h2>
+          <p>Clickable preview with sample data (no live payments).</p>
+        </div>
+        <div class="switcher">
+          <button class="tab active" data-view="provider">Provider Dashboard</button>
+          <button class="tab" data-view="parent">Parent Payment View</button>
+        </div>
+      </div>
+
+      <section id="provider" class="view dashboard-grid active">
+        <article class="card"><p class="label">Total Tuition Due</p><p class="metric">$42,680</p><p class="muted">Across 63 active families this month</p></article>
+        <article class="card"><p class="label">Families on Payment Plans</p><p class="metric">18</p><p class="muted">+4 since last month</p></article>
+        <article class="card"><p class="label">Late Payments</p><p class="metric">7</p><p class="muted">Needs follow-up this week</p></article>
+        <article class="card"><p class="label">Subsidy Gap Cases</p><p class="metric">5</p><p class="muted">Average gap: $290</p></article>
+        <article class="card"><p class="label">Enrollment Risk Alerts</p><p class="metric">3</p><p class="muted">High churn risk in next 30 days</p></article>
+
+        <article class="card" style="grid-column: 1 / -1">
+          <p class="label">Sample Families</p>
+          <div class="family-list">
+            <div class="family"><div><strong>Nguyen Family</strong><p class="muted">Balance: $780 • Next due: Jun 1</p></div><span class="tag plan">Split Plan</span></div>
+            <div class="family"><div><strong>Harris Family</strong><p class="muted">Balance: $1,120 • 6 days overdue</p></div><span class="tag late">Late</span></div>
+            <div class="family"><div><strong>Diaz Family</strong><p class="muted">Subsidy covers 70% • Gap $310</p></div><span class="tag warn">Subsidy Gap</span></div>
+            <div class="family"><div><strong>Parker Family</strong><p class="muted">Balance: $0 • Paid in full</p></div><span class="tag ok">On Track</span></div>
+          </div>
+        </article>
+      </section>
+
+      <section id="parent" class="view parent-layout">
+        <article class="card">
+          <p class="label">Childcare Tuition Balance</p>
+          <p class="checkout-total">$1,240.00</p>
+          <p class="muted">May tuition for Ava + Ethan</p>
+
+          <label class="option active"><div><input type="radio" name="plan" checked /><strong>Pay in Full</strong></div><span>$1,240 today</span></label>
+          <label class="option"><div><input type="radio" name="plan" /><strong>Split into 2 Payments</strong></div><span>$620 + $620</span></label>
+          <label class="option"><div><input type="radio" name="plan" /><strong>Weekly Plan</strong></div><span>4 x $310</span></label>
+          <label class="option"><div><input type="radio" name="plan" /><strong>Subsidy Gap Bridge</strong></div><span>Bridge $280 gap</span></label>
+        </article>
+
+        <article class="card">
+          <p class="label">Upcoming Payment Dates</p>
+          <ul class="dates">
+            <li>May 20, 2026 — $620 (1st installment)</li>
+            <li>June 3, 2026 — $620 (2nd installment)</li>
+            <li>Auto-reminders sent 48 hours before due date</li>
+          </ul>
+          <button class="btn">Continue to Checkout</button>
+          <p class="muted" style="margin-top: 0.7rem; font-size: 0.9rem;">Prototype mode: payment methods and processing are not connected yet.</p>
+        </article>
+      </section>
+
+      <section class="sections">
+        <article class="card">
+          <p class="label">Why Now?</p>
+          <p class="muted">Providers are seeing more subsidy gaps, late payments, and enrollment drops as families face growing childcare affordability pressure. Vilinq helps centers proactively support families while protecting tuition continuity and enrollment stability.</p>
+        </article>
+
+        <article class="card">
+          <p class="label">How Vilinq Works</p>
+          <ol class="flow">
+            <li>Provider invites family</li>
+            <li>Family selects payment option</li>
+            <li>Vilinq tracks payment schedule</li>
+            <li>Automated reminders are sent</li>
+            <li>Provider monitors payment and enrollment status</li>
+          </ol>
+        </article>
+      </section>
+    </div>
+
+    <script>
+      const tabs = document.querySelectorAll('.tab');
+      const views = document.querySelectorAll('.view');
+      const options = document.querySelectorAll('.option');
+
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          tabs.forEach((btn) => btn.classList.remove('active'));
+          views.forEach((v) => v.classList.remove('active'));
+          tab.classList.add('active');
+          document.getElementById(tab.dataset.view).classList.add('active');
+        });
+      });
+
+      options.forEach((option) => {
+        option.addEventListener('click', () => {
+          options.forEach((o) => o.classList.remove('active'));
+          option.classList.add('active');
+          option.querySelector('input').checked = true;
+        });
+      });
+    </script>
   </body>
 </html>
